@@ -13,7 +13,7 @@ print(linkedin)
 
 # ==========================================================================
 
-with open("C:/Users/Samali/Desktop/New_OpenAI_Agent/twin/summary.txt", "r", encoding="utf-8") as f:
+with open("summary.txt", "r", encoding="utf-8") as f:
     summary = f.read()
 
 print(summary)
