@@ -1,0 +1,5 @@
+Details of User 1 :
+ e-mail -> johnny@gmail.com
+ name -> Johnny Joestar
+ notes -> I hate my life
+
