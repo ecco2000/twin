@@ -9,38 +9,27 @@ pushover_url = "https://api.pushover.net/1/messages.json"
 
 def push(message):
     print(f"Push: {message}")
-    # Fixed: Removed the incomplete 'file_path = ' line
     payload = {"user" : pushover_user, "token" : pushover_token, "message" : message}
     response = requests.post(pushover_url, data = payload)
     return "OK" if response.status_code == 200 else "Failed"
 
 def record_user_details(email, name="Name not provided.", notes="not provided."):
     print(f"Record user_details : {email}, {name}, {notes}")
-    # Fixed: Added .txt extension
-    file_path = "C:/Users/Samali/Desktop/New_OpenAI_Agent/twin/record_user_details.txt"
-    
-    # Fixed: Force create the 'twin' folder if it is missing
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    file_path = "record_user_details.txt"
 
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as f:
-            # Fixed: Only count lines that denote a new user
             new_line = sum(1 for line in f if "Details of User" in line) + 1
     else:
         new_line = 1
 
     with open(file_path, 'a', encoding='utf-8') as f:
-        # Fixed: Added double \n\n to cleanly space the users
         f.write(f"Details of User {new_line} :\n e-mail -> {email}\n name -> {name}\n notes -> {notes}\n\n")
     return "OK"
 
 def record_unknown_question(question):
     print(f"Record question that I couldn't answer : {question}")
-    # Fixed: Added .txt extension
-    file_path = "C:/Users/Samali/Desktop/New_OpenAI_Agent/twin/record_unknown_questions.txt"
-    
-    # Fixed: Force create the folder
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    file_path = "record_unknown_questions.txt"
 
     if os.path.exists(file_path):
         with open(file_path, "r", encoding="utf-8") as f:
@@ -54,10 +43,7 @@ def record_unknown_question(question):
 
 def record_fav_tool(fav):
     print(f"Tool to record user's favourite food : {fav}")
-    file_path = "C:/Users/Samali/Desktop/New_OpenAI_Agent/twin/fav_foods.txt"
-    
-    # Good practice to add it here too
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    file_path = "fav_foods.txt"
     
     with open(file_path, 'a', encoding="utf-8") as f:
         f.write(fav + '\n')
@@ -103,26 +89,21 @@ record_unknown_question_json = {
     }
 }
 
-record_fav_tool_json = [
-    {
-        "type": "function",
-        "function": {
-            "name": "record_fav_tool",
-            "description": "Records the user's favourite food.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "fav": {
-                        "type": "string",
-                        "description": "The user's favourite food."
-                    }
-                },
-                "required": ["fav"],
-                "additionalProperties": False
+record_fav_tool_json = {
+    "name": "record_fav_tool",
+    "description": "Records the user's favourite food.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "fav": {
+                "type": "string",
+                "description": "The user's favourite food."
             }
-        }
+        },
+        "required": ["fav"],
+        "additionalProperties": False
     }
-]
+}
 
 tools = [
     {"type": "function", "function": record_user_details_json},
@@ -130,10 +111,10 @@ tools = [
     {"type": "function", "function": record_fav_tool_json}
 ]
 
-tool_map =  {
-    "record_user_details" : record_user_details,
-    "record_unknown_question" : record_unknown_question,
-    "record_fav_food" : record_fav_tool 
+tool_map = {
+    "record_user_details": record_user_details,
+    "record_unknown_question": record_unknown_question,
+    "record_fav_tool": record_fav_tool 
 }
 
 def handle_tool_calls_with_manual_if(tool_calls):
