@@ -1,6 +1,6 @@
 from pypdf import PdfReader
 
-reader = PdfReader("C:/Users/Samali/Desktop/New_OpenAI_Agent/twin/linkedin.pdf")
+reader = PdfReader("linkedin.pdf")
 
 linkedin = " "
 
