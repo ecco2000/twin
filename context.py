@@ -1,5 +1,4 @@
 from pypdf import PdfReader
-from IPython.display import display, Markdown
 
 reader = PdfReader("C:/Users/Samali/Desktop/New_OpenAI_Agent/twin/linkedin.pdf")
 
